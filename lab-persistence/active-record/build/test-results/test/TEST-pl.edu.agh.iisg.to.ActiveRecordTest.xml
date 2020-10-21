@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pl.edu.agh.iisg.to.ActiveRecordTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-10-18T14:45:37" hostname="tumilok-TM" time="0.146">
+  <properties/>
+  <testcase name="courseStudentListTest()" classname="pl.edu.agh.iisg.to.ActiveRecordTest" time="0.146"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.connection.ConnectionProvider init
+INFO: Loading driver
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.connection.ConnectionProvider init
+INFO: Connection created
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.connection.ConnectionProvider close
+INFO: Closing connection
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.connection.ConnectionProvider init
+INFO: Loading driver
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.connection.ConnectionProvider init
+INFO: Connection created
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.executor.QueryExecutor <clinit>
+INFO: Creating table Student
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.executor.QueryExecutor <clinit>
+INFO: Creating table Course
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.executor.QueryExecutor <clinit>
+INFO: Creating table Student_Course
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.executor.QueryExecutor <clinit>
+INFO: Creating table Grade
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.executor.QueryExecutor read
+INFO: Query: SELECT * FROM student WHERE id = (?) executed.
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.executor.QueryExecutor read
+INFO: Query: SELECT * FROM student WHERE id = (?) executed.
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.executor.QueryExecutor read
+INFO: Query: SELECT * FROM course WHERE id = ? executed.
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.executor.QueryExecutor read
+INFO: Query: SELECT * FROM student AS s INNER JOIN student_course AS sc ON s.id = sc.student_id WHERE sc.course_id = ? executed.
+Oct 18, 2020 4:45:37 PM pl.edu.agh.iisg.to.connection.ConnectionProvider close
+INFO: Closing connection
+]]></system-err>
+</testsuite>
