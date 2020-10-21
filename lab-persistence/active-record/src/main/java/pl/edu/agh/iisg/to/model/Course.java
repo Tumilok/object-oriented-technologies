@@ -31,12 +31,9 @@ public class Course {
 
     public static Optional<Course> create(final String name) {
     	String insertSql = "INSERT INTO course (name) VALUES (?);";
-    	Object[] args = {
-    	        name
-        };
 
 		try {
-			int id = QueryExecutor.createAndObtainId(insertSql, args);
+			int id = QueryExecutor.createAndObtainId(insertSql, name);
 	        return Course.findById(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
