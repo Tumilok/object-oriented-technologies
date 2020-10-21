@@ -127,6 +127,9 @@ public class OrmTest {
         checkStudent(student2);
         checkCourse(course);
 
+        courseDao.enrollStudent(course.get(), student1.get());
+        courseDao.enrollStudent(course.get(), student2.get());
+
         assertEquals(2, students.size());
         assertTrue(students.contains(student1.get()));
         assertTrue(students.contains(student2.get()));
@@ -138,17 +141,17 @@ public class OrmTest {
         var student = studentDao.create("Kasia", "Kowalska", 900124);
         var course = courseDao.create("MOWNIT 2");
 
-        var initialStudentGrades = student.get().gradeSet();
+        int initialStudentGrades = student.get().gradeSet().size();
         boolean studentGraded = gradeDao.gradeStudent(student.get(), course.get(), 5.0f);
-        var resultStudentGrades = student.get().gradeSet();
+        int resultStudentGrades = student.get().gradeSet().size();
 
         // Then
         checkStudent(student);
         checkCourse(course);
 
         assertTrue(studentGraded);
-        assertEquals(0, initialStudentGrades.size());
-        assertEquals(1, resultStudentGrades.size());
+        assertEquals(0, initialStudentGrades);
+        assertEquals(1, resultStudentGrades);
     }
 
     @Test
