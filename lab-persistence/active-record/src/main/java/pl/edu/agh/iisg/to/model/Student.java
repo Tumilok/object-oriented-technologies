@@ -1,15 +1,12 @@
 package pl.edu.agh.iisg.to.model;
 
+import pl.edu.agh.iisg.to.executor.QueryExecutor;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Spliterator;
-
-import pl.edu.agh.iisg.to.executor.QueryExecutor;
-
-import javax.xml.transform.Result;
 
 public class Student {
     private final int id;
@@ -47,21 +44,17 @@ public class Student {
     public static Optional<Student> findByIndexNumber(final int indexNumber) {
         // TODO
         String sql = "SELECT * FROM STUDENT WHERE index_number = ?";
-        Object[] args = { indexNumber };
-
         try {
-            ResultSet resultSet = QueryExecutor.read(sql, args);
+            ResultSet resultSet = QueryExecutor.read(sql, indexNumber);
             return Optional.of(new Student(
                     resultSet.getInt("id"),
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name"),
                     resultSet.getInt("index_number")
             ));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return Optional.empty();
     }
 
@@ -71,9 +64,8 @@ public class Student {
     }
 
     private static Optional<Student> find(int value, String sql) {
-        Object[] args = {value};
         try {
-            ResultSet rs = QueryExecutor.read(sql, args);
+            ResultSet rs = QueryExecutor.read(sql, value);
             return Optional.of(new Student(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getInt("index_number")));
         } catch (SQLException e) {
             e.printStackTrace();
