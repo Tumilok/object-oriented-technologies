@@ -100,6 +100,9 @@ public class Course {
     
     public List<Student> cachedStudentsList() {
     	//TOTO implement
+        if (enrolledStudents == null) {
+            return enrolledStudents = studentList();
+        }
 		return enrolledStudents;
     }
 
