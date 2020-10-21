@@ -166,15 +166,15 @@ public class OrmTest {
         gradeDao.gradeStudent(student.get(), course2.get(), 5.0f);
         gradeDao.gradeStudent(student.get(), course2.get(), 3.0f);
 
-        Map<Course, Float> report = studentDao.createReport(student.get());
+        Map<Course, Double> report = studentDao.createReport(student.get());
 
         // Then
         checkStudent(student);
         checkCourse(course1);
         checkCourse(course2);
 
-        assertEquals(Float.compare(4.5f, report.get(course1.get())), 0);
-        assertEquals(Float.compare(4.0f, report.get(course2.get())), 0);
+        assertEquals(Double.compare(4.5d, report.get(course1.get())), 0);
+        assertEquals(Double.compare(4.0d, report.get(course2.get())), 0);
     }
 
     private void checkStudent(final Optional<Student> student) {

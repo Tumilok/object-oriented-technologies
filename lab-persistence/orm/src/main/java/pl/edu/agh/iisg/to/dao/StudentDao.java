@@ -1,11 +1,11 @@
 package pl.edu.agh.iisg.to.dao;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.hibernate.Session;
 import pl.edu.agh.iisg.to.model.Course;
+import pl.edu.agh.iisg.to.model.Grade;
 import pl.edu.agh.iisg.to.model.Student;
 
 import javax.persistence.PersistenceException;
@@ -35,9 +35,9 @@ public class StudentDao extends GenericDao<Student> {
         return Optional.empty();
     }
 
-    public Map<Course, Float> createReport(final Student student) {
+    public Map<Course, Double> createReport(final Student student) {
         //TODO additional task
-        return Collections.emptyMap();
+        return student.gradeSet().stream().collect(Collectors.groupingBy(Grade::course, Collectors.averagingDouble(Grade::grade)));
     }
 
 }
