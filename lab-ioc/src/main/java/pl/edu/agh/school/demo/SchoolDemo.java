@@ -4,7 +4,6 @@ import pl.edu.agh.logger.ConsoleMessageSerializer;
 import pl.edu.agh.logger.FileMessageSerializer;
 import pl.edu.agh.logger.Logger;
 import pl.edu.agh.school.*;
-import pl.edu.agh.school.persistence.PersistenceManager;
 import pl.edu.agh.school.persistence.SerializablePersistenceManager;
 
 import java.text.DateFormat;
@@ -19,7 +18,9 @@ public class SchoolDemo {
     private final DateFormat timeFormat = new SimpleDateFormat("hh:mm");
 
     public SchoolDemo() {
-        PersistenceManager manager = new SerializablePersistenceManager();
+        SerializablePersistenceManager manager = new SerializablePersistenceManager();
+        manager.setClassStorageFileName("nazwa1");
+        manager.setTeachersStorageFileName("nazwa2");
         SchoolDAO schoolDAO = new SchoolDAO(manager);
         school = new School(schoolDAO);
     }
