@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public class School {
 
-    private SchoolDAO schoolDAO;
+    private final SchoolDAO schoolDAO;
 
     PersistenceManager persistenceManager = new SerializablePersistenceManager();
 

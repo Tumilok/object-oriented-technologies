@@ -4,28 +4,34 @@ import pl.edu.agh.logger.Logger;
 import pl.edu.agh.school.SchoolClass;
 import pl.edu.agh.school.Teacher;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class SerializablePersistenceManager implements PersistenceManager {
 
-    private static final Logger log = Logger.getInstance();
+    @Inject
+    private  Logger log;
 
     private String teachersStorageFileName;
 
     private String classStorageFileName;
+
 
     public SerializablePersistenceManager() {
         teachersStorageFileName = "teachers.dat";
         classStorageFileName = "classes.dat";
     }
 
-    public void setTeachersStorageFileName(String teachersStorageFileName) {
+    @Inject
+    public void setTeachersStorageFileName(@Named("file_teachers") String teachersStorageFileName) {
         this.teachersStorageFileName = teachersStorageFileName;
     }
 
-    public void setClassStorageFileName(String classStorageFileName) {
+    @Inject
+    public void setClassStorageFileName(@Named("file_classes") String  classStorageFileName) {
         this.classStorageFileName = classStorageFileName;
     }
 
