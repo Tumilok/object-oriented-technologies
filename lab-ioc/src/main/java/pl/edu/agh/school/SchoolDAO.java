@@ -1,10 +1,10 @@
 package pl.edu.agh.school;
 
+import pl.edu.agh.logger.Logger;
+import pl.edu.agh.school.persistence.PersistenceManager;
+
 import java.util.Collections;
 import java.util.List;
-
-import pl.edu.agh.logger.Logger;
-import pl.edu.agh.school.persistence.SerializablePersistenceManager;
 
 public class SchoolDAO {
 
@@ -14,10 +14,10 @@ public class SchoolDAO {
 
     private final List<SchoolClass> classes;
 
-    private final SerializablePersistenceManager manager;
+    private final PersistenceManager manager;
 
-    public SchoolDAO() {
-        manager = new SerializablePersistenceManager();
+    public SchoolDAO(PersistenceManager persistenceManager) {
+        manager = persistenceManager;
         teachers = manager.loadTeachers();
         classes = manager.loadClasses();
     }
