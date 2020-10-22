@@ -3,6 +3,7 @@ package pl.edu.agh.school;
 import pl.edu.agh.school.persistence.PersistenceManager;
 import pl.edu.agh.school.persistence.SerializablePersistenceManager;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -11,6 +12,8 @@ public class School {
     private SchoolDAO schoolDAO;
 
     PersistenceManager persistenceManager = new SerializablePersistenceManager();
+
+    @Inject
     public School(SchoolDAO schoolDAO) {
         this.schoolDAO = schoolDAO;
     }

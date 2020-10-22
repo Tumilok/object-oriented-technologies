@@ -3,6 +3,7 @@ package pl.edu.agh.school;
 import pl.edu.agh.logger.Logger;
 import pl.edu.agh.school.persistence.PersistenceManager;
 
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class SchoolDAO {
 
     private final PersistenceManager manager;
 
+    @Inject
     public SchoolDAO(PersistenceManager persistenceManager) {
         manager = persistenceManager;
         teachers = manager.loadTeachers();
