@@ -40,7 +40,11 @@ public class RxTests {
      */
     @Test
     public void loadMoviesAsStreamAndHandleError() {
+        var movieReader = new MovieReader();
 
+        movieReader.getMoviesAsStream("not existing")
+                .subscribe(movie -> print(movie, Color.GREEN),
+                        error -> print("Error: " + error, Color.MAGENTA));
     }
 
     /**
