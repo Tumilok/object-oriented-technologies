@@ -15,7 +15,7 @@ public class MovieReader {
     private static final String ACTORS_DB = "actors";
 
     public Observable<Movie> getMoviesFromList(String moviesDb) throws FileNotFoundException {
-        return null; // TODO in Example 1
+        return Observable.fromIterable(readMovies(moviesDb));
     }
 
     public Observable<Movie> getMoviesAsStream(String moviesDb) {
