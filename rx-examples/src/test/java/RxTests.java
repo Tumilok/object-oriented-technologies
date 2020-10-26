@@ -52,7 +52,12 @@ public class RxTests {
      */
     @Test
     public void loadMoviesAsStreamAndFinishWithMessage() {
+        var movieReader = new MovieReader();
 
+        movieReader.getMoviesAsStream(MOVIES1_DB)
+                .subscribe(movie -> print(movie, Color.GREEN),
+                        error -> print("Error: " + error, Color.MAGENTA),
+                        () -> print("The end", Color.BLUE));
     }
 
     /**
