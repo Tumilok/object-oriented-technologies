@@ -78,7 +78,12 @@ public class RxTests {
      */
     @Test
     public void displaySortedMoviesTitles() {
+        var movieReader = new MovieReader();
 
+        movieReader.getMoviesAsStream(MOVIES1_DB)
+                .map(Movie::getTitle)
+                .sorted()
+                .subscribe(description -> print(description, Color.GREEN));
     }
 
     /**
