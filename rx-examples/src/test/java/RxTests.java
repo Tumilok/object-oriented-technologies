@@ -122,8 +122,15 @@ public class RxTests {
      * Example 9: Playing with threads (subscribeOn).
      */
     @Test
-    public void loadMoviesInBackground() {
+    public void loadMoviesInBackground() throws InterruptedException {
+        var movieReader = new MovieReader();
 
+        movieReader.getMoviesAsStream(MOVIES1_DB)
+                .subscribeOn(Schedulers.newThread())
+                .doOnNext(movie -> printThread(movie.getIndex(), Color.BLUE))
+                .subscribe(movie -> printThread(movie.getIndex(), Color.GREEN));
+        printThread("The end", Color.RED);
+        Thread.sleep(2000);
     }
 
     /**
