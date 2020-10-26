@@ -66,7 +66,11 @@ public class RxTests {
      */
     @Test
     public void displayLongMovies() {
+        var movieReader = new MovieReader();
 
+        movieReader.getMoviesAsStream(MOVIES1_DB)
+                .filter(movie -> movie.getLength()  > 150)
+                .subscribe(movie -> print(movie, Color.GREEN));
     }
 
     /**
