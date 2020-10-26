@@ -55,6 +55,7 @@ public class RxTests {
         var movieReader = new MovieReader();
 
         movieReader.getMoviesAsStream(MOVIES1_DB)
+                .take(10)
                 .subscribe(movie -> print(movie, Color.GREEN),
                         error -> print("Error: " + error, Color.MAGENTA),
                         () -> print("The end", Color.BLUE));
