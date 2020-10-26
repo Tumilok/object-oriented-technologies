@@ -1,4 +1,5 @@
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.junit.jupiter.api.Test;
 import util.Color;
 
@@ -105,7 +106,16 @@ public class RxTests {
      */
     @Test
     public void loadMoviesFromManySources() {
+        var movieReader = new MovieReader();
 
+        Observable<Movie> movies1 = movieReader.getMoviesAsStream(MOVIES1_DB)
+                .doOnNext(movie -> print(movie, Color.GREEN));
+
+        Observable<Movie> movies2 = movieReader.getMoviesAsStream(MOVIES2_DB)
+                .doOnNext(movie -> print(movie, Color.BLUE));
+
+        Observable.merge(movies1, movies2)
+                .subscribe(movie -> print("RECEIVED: " + movie, Color.RED));
     }
 
     /**
