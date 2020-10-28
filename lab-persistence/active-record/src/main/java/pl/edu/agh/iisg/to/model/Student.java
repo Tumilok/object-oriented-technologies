@@ -4,9 +4,9 @@ import pl.edu.agh.iisg.to.executor.QueryExecutor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Student {
     private final int id;
@@ -75,6 +75,26 @@ public class Student {
 
     public Map<Course, Float> createReport() {
         // TODO additional task
+        String sql = "SELECT c.id, c.name, AVG(g.grade) avg_grade " +
+                "FROM grade g " +
+                "INNER JOIN course c " +
+                "ON c.id = g.course_id " +
+                "WHERE g.student_id = ?" +
+                "GROUP BY c.id, c.name";
+
+        try {
+            ResultSet rs = QueryExecutor.read(sql, id);
+            Map<Course, Float> resultMap = new HashMap<>();
+            while (rs.next()) {
+                resultMap.put(
+                        new Course(rs.getInt("id"), rs.getString("name")),
+                        rs.getFloat("avg_grade")
+                );
+            }
+            return resultMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return Collections.emptyMap();
     }
 
