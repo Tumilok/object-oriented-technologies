@@ -30,18 +30,23 @@ public class PhotoDownloader {
                 .map(this::getPhoto);
     }
 
-    public List<Photo> searchForPhotos(String searchQuery) throws IOException, InterruptedException {
-        List<Photo> photos = new ArrayList<>();
-        List<String> photoUrls = DuckDuckGoDriver.searchForImages(searchQuery);
-
-        for (String photoUrl : photoUrls) {
+    public Observable<Photo> searchForPhotos(String searchQuery) throws IOException, InterruptedException {
+        return Observable.create(observer -> {
             try {
-                photos.add(getPhoto(photoUrl));
+                List<String> photoUrls = DuckDuckGoDriver.searchForImages(searchQuery);
+
+                for (String photoUrl : photoUrls) {
+                    try {
+                        observer.onNext(getPhoto(photoUrl));
+                    } catch (IOException e) {
+                        log.log(Level.WARNING, "Could not download a photo", e);
+                    }
+                }
+                observer.onComplete();
             } catch (IOException e) {
-                log.log(Level.WARNING, "Could not download a photo", e);
+                observer.onError(e);
             }
-        }
-        return photos;
+        });
     }
 
     private Photo getPhoto(String photoUrl) throws IOException {
