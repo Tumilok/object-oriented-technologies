@@ -30,15 +30,13 @@ public class PhotoCrawler {
     }
 
     public void downloadPhotoExamples() {
-        try {
-            Observable<Photo> downloadedExamples = photoDownloader.getPhotoExamples();
-            downloadedExamples.subscribe(photoSerializer::savePhoto);
-        } catch (IOException e) {
-            log.log(Level.SEVERE, "Downloading photo examples error", e);
-        }
+        Observable<Photo> downloadedExamples = photoDownloader.getPhotoExamples();
+        downloadedExamples.subscribe(photoSerializer::savePhoto);
     }
 
     public void downloadPhotosForQuery(String query) throws IOException {
         // TODO Implement me :(
+        Observable<Photo> downloadedExamples = photoDownloader.getPhotoExamples();
+        downloadedExamples.subscribe(photoSerializer::savePhoto);
     }
 }

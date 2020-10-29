@@ -10,8 +10,8 @@ public class CrawlerApp  {
     public static void main(String[] args) throws IOException {
         PhotoCrawler photoCrawler = new PhotoCrawler();
         photoCrawler.resetLibrary();
-        photoCrawler.downloadPhotoExamples();
-//        photoCrawler.downloadPhotosForQuery(TOPICS.get(0));
+//        photoCrawler.downloadPhotoExamples();
+        photoCrawler.downloadPhotosForQuery(TOPICS.get(0));
 //        photoCrawler.downloadPhotosForMultipleQueries(TOPICS);
     }
 }
