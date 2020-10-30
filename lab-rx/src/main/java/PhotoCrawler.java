@@ -1,4 +1,5 @@
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import model.Photo;
 import util.PhotoDownloader;
 import util.PhotoProcessor;
@@ -34,9 +35,21 @@ public class PhotoCrawler {
         downloadedExamples.subscribe(photoSerializer::savePhoto);
     }
 
-    public void downloadPhotosForQuery(String query) throws IOException {
-        // TODO Implement me :(
-        Observable<Photo> downloadedExamples = photoDownloader.getPhotoExamples();
+    public void downloadPhotosForQuery(String query) {
+        Observable<Photo> downloadedExamples = photoDownloader.searchForPhotos(query);
         downloadedExamples.subscribe(photoSerializer::savePhoto);
+    }
+
+//    public void downloadPhotosForMultipleQueries(List<String> queries) {
+//        Observable<Observable<Photo>> downloadedExamples = photoDownloader.searchForPhotos(queries);
+//        downloadedExamples.subscribe(p -> p.subscribeOn(Schedulers.io())
+//                .take(5)
+//                .compose((this::processPhotos))
+//                .subscribe(photoSerializer::savePhoto));
+//    }
+
+    public Observable<Photo> processPhotos(Observable<Photo> stream) {
+        return stream.filter(photoProcessor::isPhotoValid)
+                .map(photoProcessor::convertToMiniature);
     }
 }

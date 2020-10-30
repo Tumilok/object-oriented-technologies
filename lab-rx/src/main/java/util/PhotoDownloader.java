@@ -2,6 +2,8 @@ package util;
 
 import driver.DuckDuckGoDriver;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import model.Photo;
 import org.apache.tika.Tika;
 
@@ -30,12 +32,15 @@ public class PhotoDownloader {
                 .map(this::getPhoto);
     }
 
-    public Observable<Photo> searchForPhotos(String searchQuery) throws IOException, InterruptedException {
+    public Observable<Photo> searchForPhotos(String searchQuery) {
         return Observable.create(observer -> {
             try {
                 List<String> photoUrls = DuckDuckGoDriver.searchForImages(searchQuery);
 
                 for (String photoUrl : photoUrls) {
+                    if (!observer.isDisposed()) {
+                        break;
+                    }
                     try {
                         observer.onNext(getPhoto(photoUrl));
                     } catch (IOException e) {
@@ -47,6 +52,18 @@ public class PhotoDownloader {
                 observer.onError(e);
             }
         });
+    }
+
+    public Observable<Photo> searchForPhotos(List<String> searchQueries) {
+//        List<Observable<Photo>> photoObservables = new ArrayList<>();
+//        for (String query : searchQueries) {
+//            photoObservables.add(searchForPhotos(query).
+//            subscribeOn(Schedulers.io()));
+//        }
+//        return Observable.merge(photoObservables);
+
+        return Observable.fromIterable(searchQueries)
+                .flatMap(this::searchForPhotos).subscribeOn(Schedulers.io());
     }
 
     private Photo getPhoto(String photoUrl) throws IOException {
