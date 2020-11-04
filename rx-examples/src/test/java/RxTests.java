@@ -244,7 +244,14 @@ public class RxTests {
      */
     @Test
     public void cacheMoviesInfo() {
+        MovieReader movieReader = new MovieReader();
+        final Observable<Movie> movieObservable = movieReader.getMoviesAsStream(MOVIES1_DB).cache();
 
+        // reading 1-st time (from file)
+        movieObservable.subscribe(movie -> print(movie, Color.RED));
+
+        // emit cached values once again (no reading from file)
+        System.out.println(movieObservable.count().blockingGet());
     }
 
     private void displayProgress(Movie movie) throws InterruptedException {
