@@ -139,7 +139,14 @@ public class RxTests {
      */
     @Test
     public void switchThreadsDuringMoviesProcessing() {
-
+        MovieReader movieReader = new MovieReader();
+        movieReader.getMoviesAsStream(MOVIES1_DB)
+                .take(10)
+                .subscribeOn(Schedulers.newThread())
+                .doOnNext(movie -> printThread(movie.getIndex(), Color.RED))
+                .observeOn(Schedulers.newThread())
+                .doOnNext(movie -> printThread(movie.getIndex(), Color.BLUE))
+                .blockingSubscribe(movie -> printThread(movie.getIndex(), Color.GREEN));
     }
 
     /**
