@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import util.Color;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
 import static util.ColorUtil.print;
 import static util.ColorUtil.printThread;
@@ -188,7 +189,14 @@ public class RxTests {
      */
     @Test
     public void loadMoviesWithDelay() {
+        MovieReader movieReader = new MovieReader();
 
+        Observable<Movie> moviesStream = movieReader.getMoviesAsStream(MOVIES1_DB)
+                .subscribeOn(Schedulers.newThread());
+        Observable<Long> interval = Observable.interval(1, TimeUnit.SECONDS);
+
+        Observable.zip(moviesStream, interval, (movie, i) -> movie)
+                .blockingSubscribe(movie -> print(movie, Color.GREEN));
     }
 
     /**
