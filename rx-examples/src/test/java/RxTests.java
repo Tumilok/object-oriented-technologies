@@ -1,5 +1,6 @@
 import io.reactivex.rxjava3.core.BackpressureStrategy;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.observables.ConnectableObservable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.junit.jupiter.api.Test;
 import util.Color;
@@ -220,7 +221,22 @@ public class RxTests {
      */
     @Test
     public void oneMovieStreamManyDifferentSubscribers() {
+        MovieReader movieReader = new MovieReader();
+        // cold observable
+        final Observable<Movie> movieObservable = movieReader.getMoviesAsStream(MOVIES1_DB);
 
+        // hot observable
+        final ConnectableObservable<Movie> movieConnectableObservable = movieObservable.publish();
+
+        movieConnectableObservable
+                .take(10)
+                .subscribe(movie -> print(movie, Color.RED));
+
+        movieConnectableObservable
+                .filter(movie -> movie.getRating().equals("G"))
+                .subscribe(movie -> print(movie, Color.BLUE));
+
+        movieConnectableObservable.connect();
     }
 
     /**
