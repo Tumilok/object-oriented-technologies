@@ -148,24 +148,31 @@ public class RxTests {
     public void loadMoviesFromManySourcesParallel() throws InterruptedException {
         // Static merge solution
         var movieReader = new MovieReader();
-
-        Observable<Movie> movies1 = movieReader.getMoviesAsStream(MOVIES1_DB)
-                .subscribeOn(Schedulers.io())
-                .doOnNext(movie -> print(movie, Color.GREEN));
-
-        Observable<Movie> movies2 = movieReader.getMoviesAsStream(MOVIES2_DB)
-                .subscribeOn(Schedulers.io())
-                .doOnNext(movie -> print(movie, Color.BLUE));
-
-        Observable.merge(movies1, movies2)
-                .subscribe(movie -> print("RECEIVED: " + movie, Color.RED));
-
-        Thread.sleep(10000);
+//
+//        Observable<Movie> movies1 = movieReader.getMoviesAsStream(MOVIES1_DB)
+//                .subscribeOn(Schedulers.io())
+//                .doOnNext(movie -> print(movie, Color.GREEN));
+//
+//        Observable<Movie> movies2 = movieReader.getMoviesAsStream(MOVIES2_DB)
+//                .subscribeOn(Schedulers.io())
+//                .doOnNext(movie -> print(movie, Color.BLUE));
+//
+//        Observable.merge(movies1, movies2)
+//                .subscribe(movie -> print("RECEIVED: " + movie, Color.RED));
+//
+//        Thread.sleep(10000);
 
         // FlatMap solution:
         final MovieDescriptor movie1Descriptor = new MovieDescriptor(MOVIES1_DB, Color.GREEN);
         final MovieDescriptor movie2Descriptor = new MovieDescriptor(MOVIES2_DB, Color.BLUE);
 
+        Observable.just(movie1Descriptor, movie2Descriptor)
+                .flatMap(db -> movieReader.getMoviesAsStream(db.movieDbFilename)
+                        .doOnNext(movie -> print(movie, db.debugColor))
+                        .subscribeOn(Schedulers.io()))
+                .subscribe(movie -> print("RECEIVED: " + movie, Color.RED));
+
+        Thread.sleep(10000);
     }
 
     /**
