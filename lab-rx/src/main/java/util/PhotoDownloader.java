@@ -38,7 +38,7 @@ public class PhotoDownloader {
                 List<String> photoUrls = DuckDuckGoDriver.searchForImages(searchQuery);
 
                 for (String photoUrl : photoUrls) {
-                    if (!observer.isDisposed()) {
+                    if (observer.isDisposed()) {
                         break;
                     }
                     try {
@@ -55,15 +55,12 @@ public class PhotoDownloader {
     }
 
     public Observable<Photo> searchForPhotos(List<String> searchQueries) {
-//        List<Observable<Photo>> photoObservables = new ArrayList<>();
-//        for (String query : searchQueries) {
-//            photoObservables.add(searchForPhotos(query).
-//            subscribeOn(Schedulers.io()));
-//        }
-//        return Observable.merge(photoObservables);
-
-        return Observable.fromIterable(searchQueries)
-                .flatMap(this::searchForPhotos).subscribeOn(Schedulers.io());
+        List<Observable<Photo>> photoObservables = new ArrayList<>();
+        for (String query : searchQueries) {
+            photoObservables.add(searchForPhotos(query).
+            subscribeOn(Schedulers.io()));
+        }
+        return Observable.merge(photoObservables);
     }
 
     private Photo getPhoto(String photoUrl) throws IOException {
