@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import javafx.collections.ListChangeListener;
 import javafx.embed.swing.SwingFXUtils;
 
 import model.Gallery;
@@ -26,6 +27,24 @@ public class PhotoSerializer {
 
     public void registerGallery(Gallery gallery) {
         // TODO model <-> serializer bindings configuration
+        gallery.getPhotos().addListener((ListChangeListener<? super Photo>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    change.getAddedSubList().forEach(element -> {
+                        // do something with added element
+                        savePhoto(element);
+                        element.nameProperty().addListener(((observable, oldValue, newValue) -> {
+                            renamePhoto(oldValue, newValue);
+                        }));
+                    });
+                } else if (change.wasRemoved()) {
+                    change.getRemoved().forEach(element -> {
+                        // do something with removed element
+                        removePhoto(element);
+                    });
+                }
+            }
+        });
     }
 
     private void createLibraryDirectory() throws IOException {
